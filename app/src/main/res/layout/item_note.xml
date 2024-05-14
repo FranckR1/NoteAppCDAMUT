@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title"
-                style="@style/TextFontNoteDetail"
+                style="@style/TextFontNoteList"
                 tools:text="ttttttttttttttttttttttttttttttttttttttttgggggggggggg"
                 />
 

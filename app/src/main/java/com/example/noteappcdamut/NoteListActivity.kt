@@ -1,5 +1,6 @@
 package com.example.noteappcdamut
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -25,11 +26,11 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
         notes = mutableListOf<Note>()
         notes.add(Note("Note 1", "Ma premiére note"))
-        notes.add(Note("Note 2", "Ma premiére note"))
-        notes.add(Note("Note 3", "Ma premiére note"))
-        notes.add(Note("Note 4", "Ma premiére note"))
-        notes.add(Note("Note 5", "Ma premiére note"))
-        notes.add(Note("Note 6", "Ma premiére note"))
+        notes.add(Note("Note 2", "Ma premiére note 2"))
+        notes.add(Note("Note 3", "Ma premiére note 3"))
+        notes.add(Note("Note 4", "Ma premiére note 4"))
+        notes.add(Note("Note 5", "Ma premiére note 5"))
+        notes.add(Note("Note 6", "Ma premiére note 6"))
 
         adapter = NoteAdapter(notes, this)
 
@@ -42,7 +43,15 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View) {
         if (view.tag != null) {
-            Log.i("No activity", "Pas d'activity")
+            showNoteDetail(view.tag as Int)
         }
+    }
+
+    fun showNoteDetail(noteIndex: Int) {
+        val note = notes[noteIndex]
+        val intent = Intent(this, NoteDetailActivity::class.java)
+        intent.putExtra(NoteDetailActivity.EXTRA_NOTE, note)
+        intent.putExtra(NoteDetailActivity.EXTRA_NOTE_INDEX, noteIndex)
+        startActivity(intent)
     }
 }
