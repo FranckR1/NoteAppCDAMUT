@@ -24,7 +24,7 @@
                 tools:text="Note 1"
                 />
             <TextView
-                android:id="@+id/exerpt"
+                android:id="@+id/excerpt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title"
