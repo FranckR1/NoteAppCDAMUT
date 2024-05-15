@@ -30,6 +30,9 @@ class NoteDetailActivity : AppCompatActivity() {
             insets
         }
 
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
         note = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(EXTRA_NOTE, Note::class.java)!!
         } else {
