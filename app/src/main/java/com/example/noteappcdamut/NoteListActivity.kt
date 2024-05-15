@@ -15,6 +15,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.noteappcdamut.Utils.loadNotes
+import com.example.noteappcdamut.Utils.persistNote
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class NoteListActivity : AppCompatActivity(), View.OnClickListener {
@@ -35,7 +37,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
         findViewById<FloatingActionButton>(R.id.create_note_fab).setOnClickListener(this)
 
-        notes = mutableListOf<Note>()
+        notes = loadNotes(this)
 
         adapter = NoteAdapter(notes, this)
 
@@ -77,11 +79,13 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
             return
         }
         val note = notes.removeAt(noteIndex)
+        com.example.noteappcdamut.Utils.deleteNote(this, note)
         adapter.notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun saveNote(note: Note, noteIndex: Int) {
+        persistNote(this, note)
         if(noteIndex < 0 ) {
             notes.add(0, note)
         } else {
