@@ -1,5 +1,6 @@
 package com.example.noteappcdamut
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
@@ -13,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class NoteListActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var notes:MutableList<Note>
@@ -29,6 +31,8 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        findViewById<FloatingActionButton>(R.id.create_note_fab).setOnClickListener(this)
 
         notes = mutableListOf<Note>()
         notes.add(Note("Note 1", "Ma premiére note"))
@@ -66,8 +70,13 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         saveNote(note, noteIndex)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun saveNote(note: Note, noteIndex: Int) {
-        notes[noteIndex] = note
+        if(noteIndex < 0 ) {
+            notes.add(0, note)
+        } else {
+            notes[noteIndex] = note
+        }
         adapter.notifyDataSetChanged()
     }
 
@@ -75,11 +84,21 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View) {
         if (view.tag != null) {
             showNoteDetail(view.tag as Int)
+        } else {
+            when(view.id) {
+                R.id.create_note_fab -> createNewNote()
+            }
         }
     }
 
+    fun createNewNote() {
+        showNoteDetail(-1)
+    }
+
+
+
     fun showNoteDetail(noteIndex: Int) {
-        val note = notes[noteIndex]
+        val note = if(noteIndex < 0) Note() else notes[noteIndex]
         val intent = Intent(this, NoteDetailActivity::class.java)
         intent.putExtra(NoteDetailActivity.EXTRA_NOTE, note)
         intent.putExtra(NoteDetailActivity.EXTRA_NOTE_INDEX, noteIndex)
