@@ -24,6 +24,7 @@ data class Note(
     }
 
     companion object CREATOR : Parcelable.Creator<Note> {
+        private val serialVersionUid : Long = 111111111
         override fun createFromParcel(parcel: Parcel): Note {
             return Note(parcel)
         }
